@@ -1,244 +1,221 @@
-# Supply Chain Analytics
+# Supply-Chain Operations Dataset for Advanced Analysis
 
-**End-to-end exploratory data analysis of sales, procurement, supplier
-performance, customer segments, and logistics operations.**
+# 📌 Project Title
+Supply-Chain Operations Dataset for Advanced Analysis
 
-## 1. Project Title
+# ❓ Brief Problem Statement
+Problem
 
-**Supply Chain Analytics: Data-Driven Insights for Procurement, Sales,
-and Logistics**
+Supply chain data is spread across 6 tables (customers, products, suppliers, sales, procurement, data dictionary)
 
-## 2. Brief Problem Statement
+Delivery delays, heavy discounting and supplier reliability are hard to see without combined analysis
 
-Supply chain operations involve interconnected decisions across
-purchasing, supplier reliability, product pricing, customer demand, and
-order fulfilment. Analysing these activities in isolation can make it
-difficult to identify cost drivers, delivery bottlenecks, profitability
-patterns, and opportunities for operational improvement.
+Approach :
 
-This project uses a multi-table supply chain dataset to explore these
-relationships and translate the analysis into practical business
-insights. The workflow combines data inspection and cleaning, relational
-data integration, derived-feature engineering, exploratory data analysis
-(EDA), statistical analysis, and business recommendations.
+Cleaned and validated 22,854 records
 
-The analysis is performed in Python using **Pandas, NumPy, Matplotlib,
-and Seaborn**. Sales and customer/product information are analysed in a
-sales-focused view, while procurement and supplier information are
-analysed in a separate procurement-focused view. This avoids
-inappropriate many-to-many joins between sales and procurement
-transactions.
+Ran univariate, bivariate, multivariate, temporal, outlier and statistical analysis
 
-## 3. Project Objectives
+Created derived features: gross margin, fulfillment latency, lifecycle stage, customer-supplier distance
 
--   Understand the structure, quality, and relationships of the supplied
-    datasets.
--   Examine sales revenue, order profitability, discounts, and
-    customer-segment performance.
--   Evaluate supplier reliability, procurement expenditure, and
-    procurement delivery variance.
--   Investigate delivery-risk patterns across shipping modes and
-    carriers.
--   Explore product pricing, cost, margin, and lifecycle patterns.
--   Identify trends over time and statistically unusual observations.
--   Develop evidence-based recommendations for supply chain and
-    commercial decision-making.
+Converted findings into prioritised recommendations
 
-## 4. Dataset Overview
+# 🔑 Summary of Findings
+Data Quality: 99.95% complete; only Discontinuation_Date and Certification_Level had gaps
 
-The project uses six CSV files:
+Profitability: Total profit 5.61M; median profit per order 240.47; completed-order gross margin averages 37.18%
 
-  -----------------------------------------------------------------------------
-  Dataset                    Description                                Records
-  -------------------------- --------------------- ----------------------------
-  `customer_master.csv`      Customer identity,                             500
-                             industry, market      
-                             segment, country,     
-                             city, and coordinates 
+Discounts: 33.08% of orders exceed standard gross margin; discount vs profit correlation is -0.254 (weak negative)
 
-  `product_master.csv`       Product, SKU,                                  200
-                             category, unit cost,  
-                             standard price, and   
-                             lifecycle dates       
+Delivery: 79.57% of orders are late or risk-flagged; average shipping delay 1.98 days
 
-  `supplier_master.csv`      Supplier location,                             100
-                             on-time delivery      
-                             rate, certification,  
-                             and                   
-                             preferred-supplier    
-                             flag                  
+Highest Risk Lane: Italy with Standard shipping (84.06% risk)
 
-  `sales_orders.csv`         Customer-product                            20,000
-                             order transactions,   
-                             pricing, discounts,   
-                             shipping, delivery    
-                             status, VAT, COGS,    
-                             and profit            
+Procurement: 61.7% of purchase orders arrive late; average delay 1.58 days
 
-  `procurement_orders.csv`   Supplier purchase                            2,000
-                             orders, raw-material  
-                             identifiers,          
-                             quantities, costs,    
-                             and planned/actual    
-                             delivery dates        
+Suppliers: Historical on-time rate does not predict actual delays (negligible correlation)
 
-  `data_dictionary.csv`      Field definitions and                           54
-                             supporting dataset    
-                             documentation         
-  -----------------------------------------------------------------------------
+Top Spend: Nova Eco LLC (supplier) and Food (category)
 
-**Total:** 22,854 records across six datasets.
+Seasonality: Revenue and orders peak in May 2023; shipping delays peak in August
 
-The initial data-quality review identified 221 missing values
-(approximately 99.91% completeness). Missing product discontinuation
-dates are retained because they may indicate products without a recorded
-discontinuation date. Missing supplier certification values are
-represented as `Unknown` rather than assumed to mean that a supplier is
-uncertified.
+Statistics: No strong linear relationships found; outliers are only 0.55% on average
 
-## 5. Analytical Approach
+# 🎯 Project Overview
+Objectives
 
-1.  **Data loading and understanding** --- inspect dataset dimensions,
-    column types, descriptive statistics, missing values, and
-    relationships.
-2.  **Data cleaning** --- handle duplicates, standardise text values,
-    convert data types, and preserve meaningful missing values.
-3.  **Dataset visualisation and summarisation** --- compare dataset
-    sizes, completeness, missingness, and variable types.
-4.  **Data integration and derived features** --- create analytical
-    views by joining related master and transaction tables; derive
-    profit-margin, shipping schedule variance, procurement delivery
-    variance, lead-time, product lifecycle, and exploratory geographical
-    features where supported.
-5.  **Univariate analysis** --- study profitability, discounts, delivery
-    performance, procurement costs, and supplier performance
-    distributions.
-6.  **Bivariate analysis** --- investigate supplier reliability and
-    procurement variance, discounts and profit, shipping mode and
-    delivery risk, customer-segment value, and product cost versus
-    price.
-7.  **Multivariate analysis** --- explore combined
-    supplier/category/cost patterns, customer location and shipping
-    risk, product margin and discount patterns, and procurement
-    bottlenecks.
-8.  **Temporal analysis** --- examine monthly and quarterly sales,
-    procurement expenditure, lead times, delivery variance, and product
-    lifecycle patterns.
-9.  **Outlier analysis** --- identify statistical extremes using the
-    Interquartile Range (IQR) method. Outliers are investigated rather
-    than automatically removed.
-10. **Statistical analysis and reporting** --- summarise selected
-    correlations and consolidate findings.
-11. **Business recommendations** --- translate supported patterns into
-    proposed operational and commercial actions.
+Primary Goal: Perform comprehensive Exploratory Data Analysis on a multi-table supply chain dataset covering customers, products, suppliers, sales orders and procurement orders
 
-## 6. Summary of Findings
+Business Focus: Identify patterns in profitability, discounting, delivery performance and supplier reliability to improve supply chain decision-making
 
--   The analysis covers **20,000 sales order records**, **2,000
-    procurement orders**, **500 customers**, **200 products**, and **100
-    suppliers**.
--   The initial data-quality assessment found approximately **99.91%
-    overall completeness**. Most missing values were concentrated in
-    product discontinuation dates and supplier certification levels.
--   Completed sales orders generated recorded revenue of
-    **13,203,375.06** and recorded profit of **4,774,225.84** (in the
-    dataset's monetary units).
--   The recorded actual late-delivery rate was approximately **79.57%**.
-    This should be interpreted according to the dataset's
-    `Delivery_Status` definition and the population included in the
-    calculation.
--   The tested correlation between discount and profit was approximately
-    **-0.254**, indicating a weak negative linear association in the
-    analysed data. This does not establish that discounts cause lower
-    profit.
--   The tested relationships between supplier on-time delivery rate and
-    procurement delivery variance, procurement quantity and delivery
-    variance, unit cost and standard price, and planned lead time and
-    delivery variance were negligible in the reported correlation
-    analysis.
--   Procurement analysis identifies supplier-level delivery variance and
-    procurement expenditure patterns that can support supplier review
-    and purchasing decisions.
--   Customer segment, industry, product category, discount level,
-    shipping mode, and carrier comparisons provide additional context
-    for commercial and fulfilment performance.
--   IQR-based outlier analysis highlights unusually high or low
-    observations for investigation; statistical outliers are not
-    automatically data errors.
--   Exploratory geographical distance estimates are available, but they
-    are not verified shipment routes or actual transport distances.
+Deliverables: End-to-end analysis with strategic recommendations for supply chain, sales and procurement teams
 
-*The figures above are dataset-derived results from the analysis
-workflow. Re-run the notebook against the included source CSVs to
-reproduce and verify the outputs.*
+# Dataset Information
+Domain: Supply Chain Operations & Business Analytics
 
-## 7. Key Business Recommendations
+Scope: 6 datasets with 22,854 records and 58 columns, including 20,000 sales orders and 2,000 procurement orders
 
--   **Supplier performance management:** Monitor supplier delivery
-    variance alongside historical on-time delivery rates and
-    purchase-order counts. Investigate consistently delayed suppliers
-    before changing sourcing allocations.
--   **Discount governance:** Review discount bands by product, customer
-    segment, order status, and realised profit. Evaluate promotional
-    effectiveness rather than judging discounts from correlation alone.
--   **Product and pricing strategy:** Compare product-level cost,
-    standard price, realised profit, and sales contribution to identify
-    products that may require pricing or portfolio review.
--   **Delivery performance:** Compare actual delivery outcomes
-    separately from late-delivery risk flags. Review shipping modes and
-    carriers using both delivery rates and sample sizes.
--   **Procurement planning:** Monitor planned versus actual delivery
-    dates, procurement lead times, order quantities, and supplier-level
-    patterns to identify potential bottlenecks.
--   **Data quality improvement:** Validate customer coordinates and
-    location labels, supplier location data, product identifiers, and
-    delivery-status definitions before using the analysis for
-    operational routing or cost decisions.
+Key Variables: Order_Total, Profit_Per_Order, Discount, Shipping_Mode, Shipping_Carrier, Delivery_Status, Late_Delivery_Risk_Flag, On_Time_Delivery_Rate, Total_Cost, Certification_Level
 
-These are proposed actions for further investigation, not guaranteed
-improvements or quantified savings.
+| Dataset | Records | Columns | Purpose |
+|---|---|---|---|
+| Customer Master | 500 | 8 | Customer, industry, market segment and location |
+| Product Master | 200 | 10 | SKU, category, unit cost, standard price, lifecycle dates |
+| Supplier Master | 100 | 7 | Supplier region, certification, on-time delivery rate |
+| Sales Orders | 20,000 | 20 | Order, pricing, discount, profit and shipping details |
+| Procurement Orders | 2,000 | 9 | Purchase orders, raw materials, planned and actual delivery |
+| Data Dictionary | 54 | 4 | Column definitions across all tables |
 
-## 8. Tools and Technologies
+Analysis Period: Multi-year order history (monthly peak identified in May 2023; procurement peak in March 2022)
 
--   **Language:** Python
--   **Environment:** Jupyter Notebook / Google Colab
--   **Data manipulation:** Pandas, NumPy
--   **Visualisation:** Matplotlib, Seaborn
--   **Version control and delivery:** Git, GitHub
+# 🔍 Analysis Framework - 5 Phase Approach
+# 📋 Phase 1: Data Foundation & Quality Assessment
+Objective: Establish data reliability and completeness for supply chain analytics
 
-No machine-learning model is required for this project; the focus is
-exploratory, statistical, and business-oriented analysis.
+Dataset loading from the zipped source files and initial exploration
 
-## 9. Important Methodological Notes and Limitations
+Missing value analysis (dataset-level, column-level and heatmaps)
 
--   Sales and procurement are separate transaction processes. They are
-    not directly joined into one transaction-level table because doing
-    so can create many-to-many duplication.
--   `Late_Delivery_Risk_Flag` is treated as a risk indicator and is not
-    interchangeable with the actual `Delivery_Status`.
--   `Shipping_Date_Actual - Shipping_Date_Scheduled` measures **shipping
-    schedule variance**, not final customer delivery latency.
--   `Delivery_Date_Actual - Delivery_Date_Planned` measures
-    **procurement delivery variance**. Procurement lead time is measured
-    separately from the procurement order date.
--   Correlation describes association, not causation.
--   Financial calculations should use completed orders when describing
-    realised sales performance. VAT treatment should follow the data
-    dictionary's definition of `Order_Total`.
--   Geospatial distances are exploratory straight-line estimates.
-    Supplier country-centroid coordinates and inferred product-based
-    links do not establish actual supplier-to-customer fulfilment
-    routes.
--   A single observed time period is not sufficient to establish
-    recurring seasonal patterns.
--   IQR outliers are statistical flags and should be investigated before
-    any exclusion or correction.
+Data cleaning: duplicate removal, text standardisation, date and numeric conversion
 
-## 10. Repository Structure
+Handling of missing Certification_Level (labelled "Unknown") and preservation of Discontinuation_Date
 
-The repository layout is:
+Deliverables: Clean, analysis-ready supply chain datasets (99.95% complete before cleaning)
 
-``` text
+# 📊 Phase 2: Descriptive Intelligence Gathering
+Objective: Understand distributions and basic patterns across all tables
+
+Overall, numerical, categorical and column-wise data summaries
+
+Univariate analysis of profit, discount, delivery status, procurement cost and supplier performance
+
+Histograms with KDE, box plots, count plots and donut charts
+
+Deliverables: Comprehensive descriptive statistics report for supply chain variables
+
+# 🔍 Phase 3: Advanced Pattern Recognition
+Objective: Deep-dive analysis of relationships and drivers of performance
+
+Bivariate analysis: supplier reliability vs delays, discount vs profitability, shipping mode and carrier risk, segment and industry performance, price vs cost
+
+Multivariate analysis: supplier-category-cost interactions, location-shipping-risk, product margin and discount matrix, procurement bottlenecks
+
+Correlation heatmap and pair plot of sales variables
+
+Deliverables: Advanced analytical insights with supply chain specific visualizations
+
+# 🎯 Phase 4: Temporal Operations - Statistical Deep Dive
+Objective: Outlier detection, temporal trend analysis and statistical testing
+
+IQR-based outlier detection across sales, product, procurement, delivery and supplier variables
+
+Monthly and quarterly revenue, order volume and procurement expenditure trends
+
+Product lifecycle sales velocity, procurement lead time by region and fulfillment latency seasonality
+
+Pearson correlation based statistical analysis with strength classification
+
+Deliverables: Outlier analysis and temporal supply chain trend insights
+
+# 📋 Phase 5: The Final Briefing - Derived Features & Strategic Recommendations
+Objective: Synthesize insights into actionable supply chain strategies
+
+Derived features: gross profit margin, fulfillment latency, product lifecycle stage and geospatial customer-supplier distance (Haversine)
+
+Key Findings & Summary Report
+
+Evidence-based recommendation development and success metrics definition
+
+Deliverables: Executive summary with strategic supply chain recommendations
+
+# 📈 Key Findings & Insights
+# 🎯 Data Quality Insights
+22,854 total records across 6 datasets with 99.95% completeness
+
+221 missing values before cleaning, 200 after (Certification_Level filled with "Unknown")
+
+Missing values concentrated in two columns: Product Master Discontinuation_Date and Supplier Master Certification_Level
+
+No duplicate rows found in any dataset
+
+# 🏭 Sales & Profitability Analysis
+Total profit across 20,000 orders: 5,606,605.76; average 280.33 and median 240.47 per order
+
+Profit per order ranges from -346.97 to 2,005.80
+
+16,980 completed orders (about 84.9% completion rate) across all 500 customers
+
+Average gross profit margin on completed orders is 37.18% (median 36.43%), with 1,346 negative-margin transactions needing investigation
+
+Profit is not concentrated: the top 10 SKUs contribute only 11.49% of total profit
+
+# 💰 Discount Impact Analysis
+Average discount 12.52%, median 13%, maximum 25%
+
+6,616 orders (33.08%) carry a discount exceeding the product's standard gross margin
+
+Discount and profit show a weak negative correlation (r = -0.254), the strongest relationship found in the study
+
+# ⭐ Delivery & Fulfillment Performance
+15,915 orders (79.57%) are flagged as late delivery risks and have a "Late" delivery status
+
+Average shipping delay is 1.98 days (maximum 4 days); no order ships early
+
+Highest delivery risk observed: Italy with Standard shipping (84.06%)
+
+Risk flag and late status show identical counts, so they should be validated as separate measures
+
+# 🚛 Procurement & Supplier Analysis
+2,000 purchase orders with total spend of 915,533.47; average 457.77 and median 413.31 per order
+
+Top 10 raw materials account for only 10.31% of spend (low concentration)
+
+Highest-spend supplier: Nova Eco LLC (20,930.13); highest-spend category: Food (165,592.94)
+
+Average supplier on-time delivery rate is 0.80; 46% of suppliers are preferred
+
+61.7% of procurement orders are late (1,234 late, 571 early, 195 on time), with a 1.58-day average delay
+
+Supplier on-time rate shows negligible correlation with actual delivery variance, so historical reliability is not predicting real delays
+
+# 📅 Temporal Trend Analysis
+Peak revenue and order volume month: May 2023 (446,409.58 revenue; 662 orders)
+
+Peak procurement spend month: March 2022 (31,848.48)
+
+Slowest procurement region: East (19.03-day average lead time)
+
+Highest average shipping delay month: August (2.05 days)
+
+Orders from products 365+ days post-launch sell the most units in the temporal view (27,693 units)
+
+# 🔬 Outlier, Statistical & Geospatial Findings
+Average outlier rate across analysed variables is 0.55%; highest in Sales (1.38%), led by Order Quantity (2.13%)
+
+No strong linear relationships found: 4 negligible and 1 weak correlation among tested pairs
+
+Estimated customer-supplier distance averages 9,960 km across 48,458 customer-supplier pairs
+
+# 🛠️ Technical Implementation
+Technologies Used :
+python
+pandas
+matplotlib
+seaborn
+
+# Core Libraries
+pandas==2.2.3          # Data manipulation and analysis
+numpy==2.4.6           # Numerical computing
+matplotlib==3.10.0     # Static visualizations
+seaborn==0.13.2        # Statistical data visualization
+
+# Analysis Tools
+jupyter / google colab  # Interactive development environment
+
+Project Structure
+
+text
+
 Supply‑Chain Operations Dataset for Advanced Analysis_TMP/
 │
 ├── Supply_Chain_Datasets/
@@ -254,39 +231,130 @@ Supply‑Chain Operations Dataset for Advanced Analysis_TMP/
 ├── presentation/
 │   └── (project presentation)
 │
-└── Supply_Chain_Advanced_Analytics_Debjyoti_Barik.ipynb
-```
+└── Supply_Chain_Advanced_Analytics_Debjyoti_Barik.ipynb                     
 
-Adjust the paths and filenames to match the files actually committed to
-the repository.
+# 🎯 Strategic Recommendations Summary
+# Priority 1 - Immediate Actions (0-30 days)
+Delivery Performance Recovery
 
-## 11. How to Run the Project
+Investigate why nearly 80% of orders ship late, starting with high-risk lanes such as Italy with Standard shipping
 
-1.  Clone or download the repository.
+Validate the late-delivery risk flag against actual delivery status
 
-2.  Open the notebook in Jupyter Notebook or Google Colab.
+Review scheduling assumptions between planned and actual shipping dates
 
-3.  Ensure the six CSV files are available at the paths used in the
-    notebook. If using Google Colab, upload the files or mount the
-    appropriate Drive folder.
+Discount Governance
 
-4.  Install the required packages if they are not already available:
+Review the 33% of orders where discounts exceed standard gross margin
 
-    ``` bash
-    pip install pandas numpy matplotlib seaborn jupyter
-    ```
+Set discount caps by product category and market segment
 
-5.  Run the notebook cells in order, from data loading through the final
-    report and exports.
+# Priority 2 - Short-term Initiatives (1-3 months)
+Supplier Performance Management
 
-## 12. Deliverables
+Replace reliance on historical on-time rates with actual delivery variance tracking
 
--   Exploratory Data Analysis Jupyter Notebook (`.ipynb`)
--   Original CSV datasets
--   Project presentation (`.pptx` or `.pdf`)
--   This README file
--   Exported analysis tables, where applicable
+Target slow regions (East) and high-delay suppliers for corrective plans
 
-**Project Repository:** `Supply‑Chain Operations Dataset for Advanced Analysis_TMP`\
-**Project Type:** Exploratory Data Analysis (EDA) and Supply Chain
-Business Analytics
+Review certification-level impact on delays, including ISO 9001 suppliers
+
+Margin & Pricing Optimization
+
+Investigate negative-margin transactions and categories with weak standard margins
+
+Prioritise high-margin segments such as Beauty (B2B)
+
+# Priority 3 - Long-term Strategy (3-12 months)
+Temporal Strategy Excellence
+
+Build demand forecasting using the May seasonal peak and quarterly trends
+
+Plan capacity and carrier allocation ahead of high-delay months such as August
+
+Network & Sourcing Optimization
+
+Evaluate the long average customer-supplier distance (about 9,960 km) for regional sourcing opportunities
+
+Develop predictive models for late delivery and supplier delays
+
+# 💰 Expected Impact
+Projected Outcomes
+
+Delivery Improvement: Reduce late-order share from 79.57% through lane and carrier review (target to be set by business)
+
+Margin Protection: Bring the 6,616 over-discounted orders back within standard margin limits
+
+Procurement Reliability: Reduce the 61.7% late purchase order share through supplier actions
+
+Data-Driven Planning: Seasonality and lifecycle insights for inventory and capacity decisions
+
+Note: impact figures are improvement targets, not modelled forecasts.
+
+# 📊 Key Performance Indicators
+Business Metrics
+
+Late Delivery Rate: Monthly tracking by shipping mode, carrier and country
+
+Average Profit Margin: Tracked by category, segment and discount band
+
+Discount Exposure: Share of orders with discount above standard margin
+
+Supplier On-Time Delivery: Actual delivery variance vs recorded rate
+
+Procurement Spend: By supplier, category and region
+
+Operational Metrics
+
+Data Quality Score: Ongoing completeness and validation checks
+
+Analysis Accuracy: Forecast vs actual delivery and demand performance
+
+Implementation Speed: Time-to-insight for new supply chain issues
+
+# 🚀 Getting Started
+Prerequisites
+bash
+# Python 3.8 or higher
+python --version
+
+# Required packages installation
+pip install pandas numpy matplotlib seaborn jupyter
+Running the Analysis
+bash
+# Navigate to project directory
+cd supply-chain-analytics
+
+# Launch Jupyter Notebook
+jupyter notebook Supply_Chain_Analytics.ipynb
+
+# Run all cells sequentially for complete analysis
+# (In Google Colab, upload Supply_Chain_Datasets.zip when prompted)
+
+# 📋 Analysis Execution Guide
+
+Step-by-Step Execution
+
+Data Loading: Execute Phase 1 cells for data import, quality checks and cleaning
+
+Exploratory Analysis: Run Phase 2 cells for descriptive and univariate analysis
+
+Pattern Recognition: Execute Phase 3 cells for bivariate and multivariate analytics
+
+Statistical Analysis: Run Phase 4 cells for temporal, outlier and statistical analysis
+
+Strategic Insights: Execute Phase 5 cells for derived features and the final report
+
+
+# 🏆 Acknowledgments
+Data providers for the supply chain operations dataset
+
+Supply chain and operations analysts for industry context and validation
+
+# 📄 License
+This project is submitted for educational and research purposes. All analysis and insights are based on the supplied supply chain operations dataset.
+
+# 🎯 Executive Summary
+Supply-Chain Operations Dataset for Advanced Analysis successfully completed a comprehensive EDA delivering data-driven strategies for supply chain optimization. Our multi-phase analytical approach identified critical delivery risks, discount-related margin exposure, supplier reliability gaps and seasonal patterns across sales and procurement operations.
+
+# Result:
+Evidence-based insights positioning supply chain teams for improved delivery performance, protected margins and stronger supplier management through targeted discount controls, reliability tracking and data-driven planning. The analysis reveals clear pathways to reduce late deliveries and procurement delays while sustaining profitability across customer segments and product categories.
